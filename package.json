@@ -1,0 +1,31 @@
+{
+  "name": "re-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build && node dist/main.js",
+    "build": "tsc",
+    "tslint": "tslint src/**/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kesakiyo/re-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kesakiyo/re-backend/issues"
+  },
+  "homepage": "https://github.com/kesakiyo/re-backend#readme",
+  "devDependencies": {
+    "@types/express": "^4.11.1",
+    "tslint": "^5.9.1",
+    "tslint-config-airbnb": "^5.5.0",
+    "typescript": "^2.7.1"
+  },
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
