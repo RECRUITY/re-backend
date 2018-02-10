@@ -1,5 +1,6 @@
 /* External dependencies */
 import * as mongoose from 'mongoose';
+import * as bcrypt from 'bcrypt';
 
 /* Internal dependencies */
 import setAutoIncId from './plugins/setAutoIncId';
@@ -11,6 +12,8 @@ export type ManagerModel = mongoose.Document & {
   email: string,
   name: string,
   password: string,
+
+  comparePassword: (candidatePassword: string, cb: (err: any, isMatch: any) => void) => void,
 };
 
 const managerSchema = new mongoose.Schema({
@@ -31,5 +34,11 @@ const managerSchema = new mongoose.Schema({
 
 managerSchema.plugin(setTimeStamp);
 managerSchema.plugin(setAutoIncId, { schemaName: 'ManagerId' });
+
+managerSchema.methods.comparePassword = function (candidatePassword: string, cb: (err: any, isMatch: any) => {}) {
+  bcrypt.compare(candidatePassword, this.password, (err: mongoose.Error, isMatch: boolean) => {
+    cb(err, isMatch);
+  });
+};
 
 export default mongoose.model('Manager', managerSchema);
