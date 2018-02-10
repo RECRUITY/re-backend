@@ -7,6 +7,7 @@ import * as compression from 'compression';
 
 /* Internal dependencies */
 import secret from './secret';
+import controllers from './controllers';
 
 const app = express();
 
@@ -26,9 +27,15 @@ app.use(cors({
   credentials: true,
 }));
 
-app.get('/', (req, res, next) => {
-  res.status(200).json({ message: 'hello' });
-});
+/* Apply Router */
+app.use('/maintenance', (() => {
+  const router = express.Router();
+  const maintenance = controllers.maintenance;
+
+  router.use('/ping', maintenance.ping);
+
+  return router;
+})());
 
 app.listen(8080, () => {
   console.log('express server start');
