@@ -3,6 +3,7 @@ import * as mongoose from 'mongoose';
 
 /* Internal dependencies */
 import setAutoIncId from './plugins/setAutoIncId';
+import setTimeStamp from './plugins/setTimeStamp';
 
 export type ManagerModel = mongoose.Document & {
   _id: string,
@@ -28,6 +29,7 @@ const managerSchema = new mongoose.Schema({
   },
 });
 
+managerSchema.plugin(setTimeStamp);
 managerSchema.plugin(setAutoIncId, { schemaName: 'ManagerId' });
 
 export default mongoose.model('Manager', managerSchema);
