@@ -9,6 +9,9 @@ import * as compression from 'compression';
 import secret from './secret';
 import controllers from './controllers';
 
+/* Init Passport */
+require('./config/passport');
+
 const app = express();
 
 /* Connect to mongodb */
