@@ -35,8 +35,24 @@ const managerSchema = new mongoose.Schema({
 managerSchema.plugin(setTimeStamp);
 managerSchema.plugin(setAutoIncId, { schemaName: 'ManagerId' });
 
-managerSchema.methods.comparePassword = function (candidatePassword: string, cb: (err: any, isMatch: any) => {}) {
-  bcrypt.compare(candidatePassword, this.password, (err: mongoose.Error, isMatch: boolean) => {
+managerSchema.pre('save', function (next) {
+  if (!this.isModified('password')) {
+    return next();
+  }
+
+  bcrypt.genSalt(10, function (err, salt) {
+    if (err) {
+      return next(err);
+    }
+    bcrypt.hash(this.password, salt, function (err, hash) {
+      this.password = hash;
+      next();
+    });
+  });
+});
+
+managerSchema.methods.comparePassword = function (candidatePassword: string, cb: (err: any, isMatch: boolean) => void) {
+  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
     cb(err, isMatch);
   });
 };
