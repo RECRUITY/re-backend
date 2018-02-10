@@ -48,6 +48,7 @@ app.use('/managers', (() => {
   const managers = controllers.managers;
 
   router.post('/signup', managers.signUp);
+  router.post('/signin', managers.signIn);
 
   return router;
 })());
