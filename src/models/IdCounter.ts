@@ -7,10 +7,7 @@ export type IdCounterModel = mongoose.Document & {
 };
 
 const idCounterSchema = new mongoose.Schema({
-  _id: {
-    type: String,
-    unique: true,
-  },
+  _id: String,
   seq: {
     type: Number,
   },
