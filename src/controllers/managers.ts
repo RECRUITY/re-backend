@@ -6,6 +6,11 @@ import { IVerifyOptions } from 'passport-local';
 /* Internal dependencies */
 import { default as Manager, ManagerModel } from '../models/Manager';
 
+export const getMe = (req: Request, res: Response, next: NextFunction) => {
+  console.log(req.user);
+  res.send('ok');
+};
+
 export const signUp = (req: Request, res: Response, next: NextFunction) => {
   const { email, name, password, confirmPassword } = req.body;
 
@@ -59,6 +64,7 @@ export const signIn = (req: Request, res: Response, next: NextFunction) => {
 };
 
 export default {
+  getMe,
   signUp,
   signIn,
 };
