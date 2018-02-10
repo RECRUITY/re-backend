@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run tslint-all",
     "start": "npm run build && node dist/main.js",
     "build": "tsc",
-    "tslint": "tslint src/**/*.ts"
+    "tslint-all": "tslint src/**/*.ts",
+    "precommit-msg": "echo ' > 테스트 코드를 실행 중입니다...' && exit 0"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,10 @@
     "url": "https://github.com/kesakiyo/re-backend/issues"
   },
   "homepage": "https://github.com/kesakiyo/re-backend#readme",
+  "pre-commit": [
+    "precommit-msg",
+    "tslint-all"
+  ],
   "devDependencies": {
     "@types/bcrypt": "^1.0.0",
     "@types/body-parser": "^1.16.8",
@@ -29,6 +34,7 @@
     "@types/mongoose": "^5.0.1",
     "@types/passport": "^0.4.2",
     "@types/passport-local": "^1.0.32",
+    "pre-commit": "^1.2.2",
     "tslint": "^5.9.1",
     "tslint-config-airbnb": "^5.5.0",
     "typescript": "^2.7.1"
