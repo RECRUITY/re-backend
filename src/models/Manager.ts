@@ -40,14 +40,12 @@ managerSchema.pre('save', function (next) {
     return next();
   }
 
-  bcrypt.genSalt(10, function (err, salt) {
+  bcrypt.hash(this.password, 10, (err, hash) => {
     if (err) {
       return next(err);
     }
-    bcrypt.hash(this.password, salt, function (err, hash) {
-      this.password = hash;
-      next();
-    });
+    this.password = hash;
+    next();
   });
 });
 

@@ -11,7 +11,7 @@ passport.serializeUser<any, any>((manager, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-  Manager.findById(id, (err, manager) => {
+  Manager.findOne({ id }, (err, manager) => {
     done(err, manager);
   });
 });
