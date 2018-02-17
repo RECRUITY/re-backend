@@ -66,7 +66,7 @@ export const signIn = (req: Request, res: Response, next: NextFunction) => {
 
 export const signOut = (req: Request, res: Response, next: NextFunction) => {
   req.logout();
-  res.status(200).json();
+  res.status(200).json({});
 };
 
 export default {
