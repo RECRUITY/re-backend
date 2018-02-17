@@ -57,6 +57,7 @@ app.use('/managers', (() => {
   router.get('/me', middlewares.passport.isAuthenticated, managers.getMe);
   router.post('/signup', managers.signUp);
   router.post('/signin', managers.signIn);
+  router.delete('/signout', managers.signOut);
 
   return router;
 })());
