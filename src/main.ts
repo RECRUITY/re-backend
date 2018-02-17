@@ -10,6 +10,7 @@ import * as session from 'express-session';
 /* Internal dependencies */
 import secret from './secret';
 import controllers from './controllers';
+import middlewares from './middlewares';
 
 /* Init Passport */
 require('./config/passport');
@@ -53,7 +54,7 @@ app.use('/managers', (() => {
   const router = express.Router();
   const managers = controllers.managers;
 
-  router.get('/me', managers.getMe);
+  router.get('/me', middlewares.passport.isAuthenticated, managers.getMe);
   router.post('/signup', managers.signUp);
   router.post('/signin', managers.signIn);
 

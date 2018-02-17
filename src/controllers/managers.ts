@@ -7,8 +7,9 @@ import { IVerifyOptions } from 'passport-local';
 import { default as Manager, ManagerModel } from '../models/Manager';
 
 export const getMe = (req: Request, res: Response, next: NextFunction) => {
-  console.log(req.user);
-  res.send('ok');
+  res.status(200).json({
+    manager: req.user,
+  });
 };
 
 export const signUp = (req: Request, res: Response, next: NextFunction) => {
