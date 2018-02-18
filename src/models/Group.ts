@@ -22,6 +22,6 @@ const groupSchema = new mongoose.Schema({
 });
 
 groupSchema.plugin(setTimeStamp);
-groupSchema.plugin(setAutoIncId, { schemaName: 'ManagerId' });
+groupSchema.plugin(setAutoIncId, { schemaName: 'GroupId' });
 
 export default mongoose.model('Group', groupSchema);

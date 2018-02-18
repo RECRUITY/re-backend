@@ -67,11 +67,11 @@ app.use('/managers', (() => {
   return router;
 })());
 
-app.use('/managers', (() => {
+app.use('/groups', (() => {
   const router = express.Router();
   const groups = controllers.groups;
 
-  router.post('/groups', middlewares.passport.isAuthenticated, groups.create);
+  router.post('/', middlewares.passport.isAuthenticated, groups.create);
 
   return router;
 })());
