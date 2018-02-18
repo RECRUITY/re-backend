@@ -62,6 +62,15 @@ app.use('/managers', (() => {
   return router;
 })());
 
+app.use('/managers', (() => {
+  const router = express.Router();
+  const groups = controllers.groups;
+
+  router.post('/groups', middlewares.passport.isAuthenticated, groups.create);
+
+  return router;
+})());
+
 app.listen(8080, () => {
   console.log('express server start');
 });
