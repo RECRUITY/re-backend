@@ -5,20 +5,34 @@ import * as mongoose from 'mongoose';
 import setAutoIncId from './plugins/setAutoIncId';
 import setTimeStamp from './plugins/setTimeStamp';
 
+export enum SessionRole {
+  Master = 'master',
+  Admin = 'admin',
+}
+
 export type SessionModel = mongoose.Document & {
   _id: string,
   id: number,
   userId: string,
   groupId: string,
+  role: SessionRole,
 };
 
 const sessionSchema = new mongoose.Schema({
-  name: {
-    type: String,
+  userId: {
+    type: Number,
     required: true,
     unique: true,
   },
-  description: String,
+  groupId: {
+    type: Number,
+    required: true,
+  },
+  role: {
+    type: String,
+    required: true,
+    default: SessionRole.Admin,
+  },
 });
 
 sessionSchema.plugin(setTimeStamp);
