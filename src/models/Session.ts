@@ -38,4 +38,4 @@ const sessionSchema = new mongoose.Schema({
 sessionSchema.plugin(setTimeStamp);
 sessionSchema.plugin(setAutoIncId, { schemaName: 'SessionId' });
 
-export default mongoose.model('Session', sessionSchema);
+export default mongoose.model<SessionModel>('Session', sessionSchema);
