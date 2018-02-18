@@ -1,6 +1,7 @@
 /* External dependencies */
 import * as express from 'express';
 import * as mongoose from 'mongoose';
+import * as connectMongo from 'connect-mongo';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as compression from 'compression';
@@ -29,6 +30,10 @@ app.use(compression());
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(session({
+  store: new (connectMongo(session))({
+    mongooseConnection: mongoose.connection,
+    collection: 'signin-sessions',
+  }),
   resave: true,
   saveUninitialized: true,
   secret: secret.SESSION,
