@@ -1,6 +1,7 @@
 /* External dependencies */
 import * as express from 'express';
 import * as mongoose from 'mongoose';
+import * as connectMongo from 'connect-mongo';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as compression from 'compression';
@@ -29,6 +30,10 @@ app.use(compression());
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(session({
+  store: new (connectMongo(session))({
+    mongooseConnection: mongoose.connection,
+    collection: 'signin-sessions',
+  }),
   resave: true,
   saveUninitialized: true,
   secret: secret.SESSION,
@@ -58,6 +63,15 @@ app.use('/managers', (() => {
   router.post('/signup', managers.signUp);
   router.post('/signin', managers.signIn);
   router.delete('/signout', managers.signOut);
+
+  return router;
+})());
+
+app.use('/groups', (() => {
+  const router = express.Router();
+  const groups = controllers.groups;
+
+  router.post('/', middlewares.passport.isAuthenticated, groups.create);
 
   return router;
 })());

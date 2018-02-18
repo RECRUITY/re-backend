@@ -1,14 +1,30 @@
 /* External dependencies */
+import * as mongoose from 'mongoose';
 import { Request, Response, NextFunction } from 'express';
 import * as passport from 'passport';
 import { IVerifyOptions } from 'passport-local';
 
 /* Internal dependencies */
 import { default as Manager, ManagerModel } from '../models/Manager';
+import { default as Group } from '../models/Group';
+import { default as Session, SessionModel } from '../models/Session';
 
-export const getMe = (req: Request, res: Response, next: NextFunction) => {
+const getJoginGroupInfo = async (userId: number) => {
+  const session = await Session.findOne({ userId });
+
+  if (!session) {
+    return null;
+  }
+
+  const group = await Group.findOne({ id: session.groupId });
+  return { session, group };
+};
+
+export const getMe = async (req: Request, res: Response, next: NextFunction) => {
+  const joinedGroupInfo = await getJoginGroupInfo(req.user.id);
   res.status(200).json({
     manager: req.user,
+    ...joinedGroupInfo,
   });
 };
 
@@ -54,11 +70,15 @@ export const signIn = (req: Request, res: Response, next: NextFunction) => {
       return res.status(422).json(info.message);
     }
 
-    req.logIn(manager, (err) => {
+    req.logIn(manager, async (err) => {
       if (err) {
         return next(err);
       }
-      res.status(200).json({ manager });
+      const joinedGroupInfo = await getJoginGroupInfo(req.user.id);
+      res.status(200).json({
+        manager,
+        ...joinedGroupInfo,
+      });
     });
 
   })(req, res, next);
